@@ -27,6 +27,10 @@ COPY runtime/ ${PG_APP_HOME}/
 COPY entrypoint.sh /sbin/entrypoint.sh
 RUN chmod 755 /sbin/entrypoint.sh
 
+RUN chgrp -R 0 ${PG_HOME}
+RUN chmod -R g+rw ${PG_HOME}
+RUN find ${PG_HOME} -type d -exec chmod g+x {} +
+
 EXPOSE 5432/tcp
 VOLUME ["${PG_HOME}", "${PG_RUNDIR}"]
 WORKDIR ${PG_HOME}
